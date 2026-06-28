@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS AI | Enterprise Supply Chain Optimization Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5), 0 0 10px rgba(59, 130, 246, 0.3); }
+            50% { box-shadow: 0 0 10px rgba(59, 130, 246, 0.8), 0 0 20px rgba(59, 130, 246, 0.5); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="particles" id="particles"></div>
+        <div class="grid-overlay"></div>
+        <div class="scanline"></div>
+    </div>
+
+    <div class="analytics-workspace">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar-navigation">
+            <div class="sidebar-header">
+                <div class="brand-logo-container">
+                    <svg class="nav-logo" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                    <div>
+                        <h2 class="sidebar-title">NEXUS AI</h2>
+                        <p class="sidebar-subtitle">Supply Optimizer</p>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-menu">
+                <div class="menu-section">
+                    <p class="menu-label">Dashboards</p>
+                    <a href="#" class="menu-item active">
+                        <span class="menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
+                        </span>
+                        <span class="menu-text">Operations View</span>
+                    </a>
+                </div>
+                <div class="menu-section">
+                    <p class="menu-label">Simulation Agent</p>
+                    <a href="#" class="menu-item" onclick="startSimulation(); return false;">
+                        <span class="menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                        </span>
+                        <span class="menu-text">Initialize Agent</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="runStep(); return false;">
+                        <span class="menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg>
+                        </span>
+                        <span class="menu-text">Step Simulation</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="runAllSteps(); return false;">
+                        <span class="menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>
+                        </span>
+                        <span class="menu-text" id="run-btn-text">Auto-Run Agent</span>
+                    </a>
+                </div>
+                <div class="menu-section">
+                    <p class="menu-label">Optimization Tools</p>
+                    <a href="#" class="menu-item" onclick="getResults(); return false;">
+                        <span class="menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        </span>
+                        <span class="menu-text">Calculate KPIs</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="resetSimulation(); return false;">
+                        <span class="menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+                        </span>
+                        <span class="menu-text">Reset State</span>
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Dashboard Workspace -->
+        <main class="content-area">
+            <!-- Header Bar -->
+            <header class="analytics-header">
+                <div class="header-brand">
+                    <h1>Supply Chain Analytics System</h1>
+                    <p class="header-subtitle">Continuous Reinforcement Learning & Asset Optimization Engine</p>
+                </div>
+                <div class="header-status">
+                    <div class="status-chip">
+                        <span class="status-indicator"></span>
+                        <span class="status-label">System:</span>
+                        <span id="status" class="status-value">Ready</span>
+                    </div>
+                    <div class="progress-chip">
+                        <span class="progress-label">Step Index:</span>
+                        <span id="progress" class="progress-value">0 / 0</span>
+                    </div>
+                    <div class="timestamp-chip">
+                        <span class="timestamp-label">Last Update:</span>
+                        <span id="timestamp" class="timestamp-value">--:--:--</span>
+                    </div>
+                    <div class="ai-health-badge">
+                        <span class="health-icon">🤖</span>
+                        <span class="health-text">AI Agent Healthy</span>
+                    </div>
+                    <div class="optimization-score">
+                        <span class="score-label">Optimization Score</span>
+                        <span id="opt-score" class="score-value">0%</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Global Supply Chain Network -->
+            <section class="global-map-section">
+                <div class="map-header">
+                    <div class="map-header-left">
+                        <h3>🌐 Global Logistics Network</h3>
+                        <span class="map-subtitle">Multi-Region Hub Status & AI Optimization Telemetry</span>
+                    </div>
+                    <div class="map-legend">
+                        <span class="legend-item"><span class="legend-dot optimal"></span>Optimal</span>
+                        <span class="legend-item"><span class="legend-dot warning"></span>Warning</span>
+                        <span class="legend-item"><span class="legend-dot critical"></span>Critical</span>
+                    </div>
+                </div>
+                <div class="world-map-container compact">
+                    <!-- World Map Background -->
+                    <svg class="world-map-bg" viewBox="0 0 960 200" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#0a192f;stop-opacity:0.12" />
+                                <stop offset="50%" style="stop-color:#0d2137;stop-opacity:0.15" />
+                                <stop offset="100%" style="stop-color:#0a192f;stop-opacity:0.12" />
+                            </linearGradient>
+                            <filter id="mapGlow">
+                                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <rect width="960" height="200" fill="url(#bgGradient)"/>
+                        
+                        <!-- Simplified World Map Continents -->
+                        <g class="world-continents" opacity="0.12">
+                            <!-- North America -->
+                            <path d="M 150,60 L 180,50 L 220,55 L 240,70 L 230,90 L 200,100 L 170,95 L 140,80 Z" 
+                                  fill="#38bdf8" filter="url(#mapGlow)"/>
+                            <!-- South America -->
+                            <path d="M 200,110 L 230,105 L 250,120 L 255,150 L 240,170 L 210,165 L 195,140 L 190,120 Z" 
+                                  fill="#38bdf8" filter="url(#mapGlow)"/>
+                            <!-- Europe -->
+                            <path d="M 420,50 L 450,45 L 480,55 L 490,75 L 470,85 L 440,80 L 415,65 Z" 
+                                  fill="#38bdf8" filter="url(#mapGlow)"/>
+                            <!-- Africa -->
+                            <path d="M 430,90 L 460,85 L 490,95 L 500,130 L 485,160 L 455,165 L 425,145 L 420,110 Z" 
+                                  fill="#38bdf8" filter="url(#mapGlow)"/>
+                            <!-- Asia -->
+                            <path d="M 500,45 L 580,40 L 720,50 L 780,70 L 790,100 L 750,120 L 680,115 L 600,105 L 520,90 L 490,70 Z" 
+                                  fill="#38bdf8" filter="url(#mapGlow)"/>
+                            <!-- Australia -->
+                            <path d="M 720,140 L 760,135 L 790,150 L 785,175 L 750,180 L 715,165 L 710,145 Z" 
+                                  fill="#38bdf8" filter="url(#mapGlow)"/>
+                        </g>
+                        
+                        <!-- Animated Grid Overlay -->
+                        <g class="map-grid" opacity="0.08">
+                            <line x1="0" y1="40" x2="960" y2="40" stroke="#38bdf8" stroke-width="0.5"/>
+                            <line x1="0" y1="80" x2="960" y2="80" stroke="#38bdf8" stroke-width="0.5"/>
+                            <line x1="0" y1="120" x2="960" y2="120" stroke="#38bdf8" stroke-width="0.5"/>
+                            <line x1="0" y1="160" x2="960" y2="160" stroke="#38bdf8" stroke-width="0.5"/>
+                            <line x1="160" y1="0" x2="160" y2="200" stroke="#38bdf8" stroke-width="0.5"/>
+                            <line x1="320" y1="0" x2="320" y2="200" stroke="#38bdf8" stroke-width="0.5"/>
+                            <line x1="480" y1="0" x2="480" y2="200" stroke="#38bdf8" stroke-width="0.5"/>
+                            <line x1="640" y1="0" x2="640" y2="200" stroke="#38bdf8" stroke-width="0.5"/>
+                            <line x1="800" y1="0" x2="800" y2="200" stroke="#38bdf8" stroke-width="0.5"/>
+                        </g>
+                    </svg>
+
+                    <!-- Main Network SVG -->
+                    <svg class="world-map" viewBox="0 0 960 200" preserveAspectRatio="xMidYMid meet">
+                        <defs>
+                            <linearGradient id="mapGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#070b16;stop-opacity:0.65" />
+                                <stop offset="100%" style="stop-color:#0d1527;stop-opacity:0.8" />
+                            </linearGradient>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                            <filter id="strongGlow">
+                                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <rect width="960" height="200" fill="url(#mapGradient)"/>
+                        
+                        <!-- Animated Route Lines with Glow -->
+                        <g class="routes-layer" filter="url(#glow)">
+                            <path class="route-path" d="M 180,85 L 460,70" stroke="rgba(56, 189, 248, 0.4)" stroke-width="2" stroke-dasharray="5 5">
+                                <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="2s" repeatCount="indefinite"/>
+                            </path>
+                            <path class="route-path" d="M 460,70 L 740,110" stroke="rgba(56, 189, 248, 0.4)" stroke-width="2" stroke-dasharray="5 5">
+                                <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="2s" repeatCount="indefinite"/>
+                            </path>
+                            <path class="route-path" d="M 180,85 L 320,140" stroke="rgba(56, 189, 248, 0.4)" stroke-width="2" stroke-dasharray="5 5">
+                                <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="2.5s" repeatCount="indefinite"/>
+                            </path>
+                            <path class="route-path" d="M 320,140 L 560,150" stroke="rgba(56, 189, 248, 0.4)" stroke-width="2" stroke-dasharray="5 5">
+                                <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="2.5s" repeatCount="indefinite"/>
+                            </path>
+                            <path class="route-path" d="M 560,150 L 740,110" stroke="rgba(56, 189, 248, 0.4)" stroke-width="2" stroke-dasharray="5 5">
+                                <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="2s" repeatCount="indefinite"/>
+                            </path>
+                            <path class="route-path" d="M 460,70 L 560,150" stroke="rgba(56, 189, 248, 0.4)" stroke-width="2" stroke-dasharray="5 5">
+                                <animate attributeName="stroke-dashoffset" from="0" to="-20" dur="3s" repeatCount="indefinite"/>
+                            </path>
+                        </g>
+                        
+                        <!-- Connection Links between Hubs with Glow -->
+                        <path d="M 180,85 L 460,70 M 460,70 L 740,110 M 180,85 L 320,140 M 320,140 L 560,150 M 560,150 L 740,110 M 460,70 L 560,150" stroke="rgba(56, 189, 248, 0.3)" stroke-width="2" stroke-dasharray="5 5" filter="url(#glow)"/>
+                        
+                        <!-- North America Hub Group -->
+                        <g class="hub-group" data-region="na">
+                            <circle cx="180" cy="85" r="20" class="hub-pulse-ring" opacity="0.3">
+                                <animate attributeName="r" values="16;24;16" dur="3s" repeatCount="indefinite"/>
+                                <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="180" cy="85" r="16" class="hub-ring ring-optimal" />
+                            <circle cx="180" cy="85" r="16" class="hub-ring ring-warning" />
+                            <circle cx="180" cy="85" r="16" class="hub-ring ring-critical" />
+                            <circle class="region-marker" cx="180" cy="85" r="8" data-region="na" title="North America Hub" filter="url(#strongGlow)"/>
+                            <text x="200" y="89" class="hub-label">Hub NA-01</text>
+                        </g>
+
+                        <!-- Europe Hub Group -->
+                        <g class="hub-group" data-region="eu">
+                            <circle cx="460" cy="70" r="20" class="hub-pulse-ring" opacity="0.3">
+                                <animate attributeName="r" values="16;24;16" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+                                <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+                            </circle>
+                            <circle cx="460" cy="70" r="16" class="hub-ring ring-optimal" />
+                            <circle cx="460" cy="70" r="16" class="hub-ring ring-warning" />
+                            <circle cx="460" cy="70" r="16" class="hub-ring ring-critical" />
+                            <circle class="region-marker" cx="460" cy="70" r="8" data-region="eu" title="Europe Hub" filter="url(#strongGlow)"/>
+                            <text x="480" y="74" class="hub-label">Hub EU-02</text>
+                        </g>
+
+                        <!-- Asia Hub Group -->
+                        <g class="hub-group" data-region="asia">
+                            <circle cx="740" cy="110" r="20" class="hub-pulse-ring" opacity="0.3">
+                                <animate attributeName="r" values="16;24;16" dur="3s" repeatCount="indefinite" begin="1s"/>
+                                <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3s" repeatCount="indefinite" begin="1s"/>
+                            </circle>
+                            <circle cx="740" cy="110" r="16" class="hub-ring ring-optimal" />
+                            <circle cx="740" cy="110" r="16" class="hub-ring ring-warning" />
+                            <circle cx="740" cy="110" r="16" class="hub-ring ring-critical" />
+                            <circle class="region-marker" cx="740" cy="110" r="8" data-region="asia" title="Asia Hub" filter="url(#strongGlow)"/>
+                            <text x="760" y="114" class="hub-label">Hub AS-03</text>
+                        </g>
+
+                        <!-- South America Hub Group -->
+                        <g class="hub-group" data-region="sa">
+                            <circle cx="320" cy="140" r="20" class="hub-pulse-ring" opacity="0.3">
+                                <animate attributeName="r" values="16;24;16" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+                                <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+                            </circle>
+                            <circle cx="320" cy="140" r="16" class="hub-ring ring-optimal" />
+                            <circle cx="320" cy="140" r="16" class="hub-ring ring-warning" />
+                            <circle cx="320" cy="140" r="16" class="hub-ring ring-critical" />
+                            <circle class="region-marker" cx="320" cy="140" r="8" data-region="sa" title="South America Hub" filter="url(#strongGlow)"/>
+                            <text x="340" y="144" class="hub-label">Hub SA-04</text>
+                        </g>
+
+                        <!-- Africa Hub Group -->
+                        <g class="hub-group" data-region="af">
+                            <circle cx="560" cy="150" r="20" class="hub-pulse-ring" opacity="0.3">
+                                <animate attributeName="r" values="16;24;16" dur="3s" repeatCount="indefinite" begin="2s"/>
+                                <animate attributeName="opacity" values="0.3;0.1;0.3" dur="3s" repeatCount="indefinite" begin="2s"/>
+                            </circle>
+                            <circle cx="560" cy="150" r="16" class="hub-ring ring-optimal" />
+                            <circle cx="560" cy="150" r="16" class="hub-ring ring-warning" />
+                            <circle cx="560" cy="150" r="16" class="hub-ring ring-critical" />
+                            <circle class="region-marker" cx="560" cy="150" r="8" data-region="af" title="Africa Hub" filter="url(#strongGlow)"/>
+                            <text x="580" y="154" class="hub-label">Hub AF-05</text>
+                        </g>
+                    </svg>
+                    
+                    <!-- Hub Metrics Tooltip -->
+                    <div class="hub-tooltip" id="hubTooltip">
+                        <div class="tooltip-header">
+                            <span class="tooltip-region">North America</span>
+                            <span class="tooltip-status optimal">Optimal</span>
+                        </div>
+                        <div class="tooltip-metrics">
+                            <div class="tooltip-metric">
+                                <span class="metric-label">Inventory</span>
+                                <span class="metric-value" id="tooltip-inventory">0 units</span>
+                            </div>
+                            <div class="tooltip-metric">
+                                <span class="metric-label">Demand</span>
+                                <span class="metric-value" id="tooltip-demand">0 units</span>
+                            </div>
+                            <div class="tooltip-metric">
+                                <span class="metric-label">Fulfillment</span>
+                                <span class="metric-value" id="tooltip-fulfillment">0%</span>
+                            </div>
+                            <div class="tooltip-metric">
+                                <span class="metric-label">Risk Level</span>
+                                <span class="metric-value" id="tooltip-risk">Low</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- KPI Dashboard Section -->
+            <section class="kpi-dashboard">
+                <div class="kpi-row">
+                    <div class="kpi-card profit-card">
+                        <div class="kpi-header">
+                            <span class="kpi-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                            </span>
+                            <span class="kpi-title">Total Profit</span>
+                        </div>
+                        <div class="kpi-trend">
+                            <p id="total-profit-value" class="kpi-value">$0</p>
+                            <span class="trend-indicator up">↑ 12.5%</span>
+                        </div>
+                        <div class="kpi-bar"><div id="profit-bar" class="kpi-fill" style="width:0%"></div></div>
+                        <div class="kpi-sparkline"><canvas id="profitSparkline"></canvas></div>
+                    </div>
+
+                    <div class="kpi-card service-card">
+                        <div class="kpi-header">
+                            <span class="kpi-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </span>
+                            <span class="kpi-title">Service Level</span>
+                        </div>
+                        <div class="kpi-trend">
+                            <p id="service-level-value" class="kpi-value">0%</p>
+                            <span class="trend-indicator up">↑ 3.2%</span>
+                        </div>
+                        <div class="kpi-bar"><div id="service-bar" class="kpi-fill" style="width:0%"></div></div>
+                        <div class="kpi-sparkline"><canvas id="serviceSparkline"></canvas></div>
+                    </div>
+
+                    <div class="kpi-card inventory-card">
+                        <div class="kpi-header">
+                            <span class="kpi-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                            </span>
+                            <span class="kpi-title">Inventory Turnover</span>
+                        </div>
+                        <div class="kpi-trend">
+                            <p id="inventory-turnover-value" class="kpi-value">0</p>
+                            <span class="trend-indicator down">↓ 0.8%</span>
+                        </div>
+                        <div class="kpi-bar"><div id="turnover-bar" class="kpi-fill" style="width:0%"></div></div>
+                        <div class="kpi-sparkline"><canvas id="turnoverSparkline"></canvas></div>
+                    </div>
+
+                    <div class="kpi-card loss-card">
+                        <div class="kpi-header">
+                            <span class="kpi-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            </span>
+                            <span class="kpi-title">Lost Sales</span>
+                        </div>
+                        <div class="kpi-trend">
+                            <p id="total-lost-sales-value" class="kpi-value">0</p>
+                            <span class="trend-indicator down">↑ 5.1%</span>
+                        </div>
+                        <div class="kpi-bar"><div id="loss-bar" class="kpi-fill warning" style="width:0%"></div></div>
+                        <div class="kpi-sparkline"><canvas id="lossSparkline"></canvas></div>
+                    </div>
+
+                    <div class="kpi-card utilization-card">
+                        <div class="kpi-header">
+                            <span class="kpi-icon-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                            </span>
+                            <span class="kpi-title">Warehouse Utilization</span>
+                        </div>
+                        <div class="kpi-trend">
+                            <p id="warehouse-util-value" class="kpi-value">0%</p>
+                            <span class="trend-indicator neutral">→ 0.0%</span>
+                        </div>
+                        <div class="kpi-bar"><div id="util-bar" class="kpi-fill" style="width:0%"></div></div>
+                        <div class="kpi-sparkline"><canvas id="utilSparkline"></canvas></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main Simulation Layout Grid -->
+            <section class="simulation-dashboard-grid">
+                <!-- Left Column: AI Decision Intelligence -->
+                    <div class="grid-left-col">
+                        <!-- AI Decision Intelligence -->
+                        <div class="ai-intelligence-card">
+                            <h4 class="card-title">🧠 AI Decision Intelligence</h4>
+                            <div class="intelligence-metrics">
+                                <div class="intel-item">
+                                    <span class="intel-label">Strategic Replenishment Recommendation</span>
+                                    <span id="recommended-action" class="intel-value highlight">Hold Orders</span>
+                                </div>
+                                <div class="intel-item">
+                                    <span class="intel-label">AI Optimization Confidence</span>
+                                    <div class="confidence-bar">
+                                        <div id="confidence-bar" class="confidence-fill" style="width: 0%"></div>
+                                    </div>
+                                    <span id="confidence-value" class="intel-value">0%</span>
+                                </div>
+                                <div class="intel-item">
+                                    <span class="intel-label">Policy Status</span>
+                                    <span id="agent-status" class="intel-value healthy">Stable</span>
+                                </div>
+                                <div class="intel-item">
+                                    <span class="intel-label">Learning Progress</span>
+                                    <div class="progress-ring">
+                                        <svg viewBox="0 0 36 36">
+                                            <path class="progress-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                            <path id="learning-progress" class="progress-fill" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                        </svg>
+                                        <span id="learning-text" class="progress-text">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Executive Insights -->
+                        <div class="executive-insights-card">
+                            <h4 class="card-title">📊 Executive Insights</h4>
+                            <div class="insights-metrics">
+                                <div class="insight-item">
+                                    <span class="insight-label">Operational Efficiency Index</span>
+                                    <span id="efficiency-index" class="insight-value">0%</span>
+                                </div>
+                                <div class="insight-item">
+                                    <span class="insight-label">Fulfillment Reliability Score</span>
+                                    <span id="fulfillment-score" class="insight-value">0%</span>
+                                </div>
+                                <div class="insight-item">
+                                    <span class="insight-label">Forecast Accuracy Index</span>
+                                    <span id="forecast-accuracy" class="insight-value">0%</span>
+                                </div>
+                                <div class="insight-item">
+                                    <span class="insight-label">Inventory Health Indicator</span>
+                                    <span id="inventory-health" class="insight-value">Stable</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Visual performance charts -->
+                        <div class="perf-card">
+                            <h4>📈 Inventory Performance Trend</h4>
+                            <div class="chart-container">
+                                <canvas id="inventoryChart" class="mini-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                <!-- Right Column: Live Monitoring Console & Executive Recommendations -->
+                <div class="grid-right-col">
+                    <div class="terminal-card">
+                        <div class="terminal-header">
+                            <div class="terminal-header-left">
+                                <div class="terminal-dots">
+                                    <span class="dot red"></span>
+                                    <span class="dot yellow"></span>
+                                    <span class="dot green"></span>
+                                </div>
+                                <span class="terminal-title">AI REASONING TERMINAL</span>
+                            </div>
+                            <span class="agent-badge">Q-Learning Active</span>
+                        </div>
+                        <div class="terminal-body" id="agentTerminal">
+                            <div class="terminal-line system-msg">[NEXUS] AI monitor online. Press 'Initialize Agent' to generate state models.</div>
+                        </div>
+                    </div>
+
+                    <!-- Executive Recommendations Panel -->
+                    <div class="recommendations-card">
+                        <h4 class="card-title">💡 Executive Recommendations</h4>
+                        <div class="recommendations-list" id="recommendationsList">
+                            <div class="recommendation-item">
+                                <span class="rec-icon">📊</span>
+                                <div class="rec-content">
+                                    <p class="rec-title">Optimize Reorder Points</p>
+                                    <p class="rec-desc">Adjust reorder points based on recent demand patterns to reduce stockouts by 15%.</p>
+                                </div>
+                            </div>
+                            <div class="recommendation-item">
+                                <span class="rec-icon">🎯</span>
+                                <div class="rec-content">
+                                    <p class="rec-title">Increase Safety Stock</p>
+                                    <p class="rec-desc">Consider increasing safety stock for high-variance SKUs to improve service level.</p>
+                                </div>
+                            </div>
+                            <div class="recommendation-item">
+                                <span class="rec-icon">⚡</span>
+                                <div class="rec-content">
+                                    <p class="rec-title">Expedite Shipments</p>
+                                    <p class="rec-desc">Priority routing recommended for critical inventory items in Hub AS-03.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Detailed Performance Trends Charts Section -->
+            <section class="performance-section">
+                <div class="perf-grid">
+                    <div class="perf-card">
+                        <h4>📊 Demand Forecast vs Fulfilled Sales</h4>
+                        <div class="chart-container">
+                            <canvas id="demandChart" class="perf-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="perf-card">
+                        <h4>💰 Cumulative Profit Growth</h4>
+                        <div class="chart-container">
+                            <canvas id="rewardChart" class="perf-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Additional Enterprise Widgets -->
+            <section class="enterprise-widgets">
+                <div class="widgets-grid">
+                    <!-- Risk Meter Gauge -->
+                    <div class="widget risk-meter">
+                        <h4 class="widget-title">⚠️ Regional Risk Assessment</h4>
+                        <div class="risk-gauge">
+                            <svg viewBox="0 0 200 120">
+                                <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="20" stroke-linecap="round"/>
+                                <path id="risk-arc" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#riskGradient)" stroke-width="20" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="200"/>
+                                <defs>
+                                    <linearGradient id="riskGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#10b981"/>
+                                        <stop offset="50%" style="stop-color:#f59e0b"/>
+                                        <stop offset="100%" style="stop-color:#ef4444"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div class="risk-value">
+                                <span id="risk-score" class="risk-number">0</span>
+                                <span class="risk-label">Risk Score</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Warehouse Utilization Gauge -->
+                    <div class="widget capacity-gauge">
+                        <h4 class="widget-title">📦 Warehouse Utilization</h4>
+                        <div class="gauge-container">
+                            <div class="gauge-ring">
+                                <svg viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="12"/>
+                                    <circle id="capacity-circle" cx="60" cy="60" r="50" fill="none" stroke="url(#capacityGradient)" stroke-width="12" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314" transform="rotate(-90 60 60)"/>
+                                    <defs>
+                                        <linearGradient id="capacityGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#3b82f6"/>
+                                            <stop offset="100%" style="stop-color:#8b5cf6"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                                <div class="gauge-value">
+                                    <span id="capacity-percent" class="gauge-number">0%</span>
+                                    <span class="gauge-label">Utilized</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Confidence Widget -->
+                    <div class="widget confidence-widget">
+                        <h4 class="widget-title">🤖 AI Confidence Index</h4>
+                        <div class="confidence-display">
+                            <div class="confidence-ring">
+                                <svg viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="12"/>
+                                    <circle id="confidence-circle" cx="60" cy="60" r="50" fill="none" stroke="url(#confidenceGradient)" stroke-width="12" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314" transform="rotate(-90 60 60)"/>
+                                    <defs>
+                                        <linearGradient id="confidenceGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#10b981"/>
+                                            <stop offset="100%" style="stop-color:#38bdf8"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                                <div class="confidence-value">
+                                    <span id="confidence-percent" class="confidence-number">0%</span>
+                                    <span class="confidence-label">Confidence</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Regional Performance Heatmap -->
+                    <div class="widget heatmap">
+                        <h4 class="widget-title">🗺️ Regional Performance</h4>
+                        <div class="heatmap-grid">
+                            <div class="heatmap-cell" data-region="NA">
+                                <span class="region-name">NA</span>
+                                <span id="heat-na" class="region-score optimal">98%</span>
+                            </div>
+                            <div class="heatmap-cell" data-region="EU">
+                                <span class="region-name">EU</span>
+                                <span id="heat-eu" class="region-score optimal">95%</span>
+                            </div>
+                            <div class="heatmap-cell" data-region="AS">
+                                <span class="region-name">AS</span>
+                                <span id="heat-as" class="region-score warning">87%</span>
+                            </div>
+                            <div class="heatmap-cell" data-region="SA">
+                                <span class="region-name">SA</span>
+                                <span id="heat-sa" class="region-score optimal">92%</span>
+                            </div>
+                            <div class="heatmap-cell" data-region="AF">
+                                <span class="region-name">AF</span>
+                                <span id="heat-af" class="region-score critical">78%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Regional Comparison Table -->
+                    <div class="widget comparison-table">
+                        <h4 class="widget-title">📋 Regional Comparison</h4>
+                        <table class="comparison-grid">
+                            <thead>
+                                <tr>
+                                    <th>Region</th>
+                                    <th>Inventory</th>
+                                    <th>Demand</th>
+                                    <th>Service</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>North America</td>
+                                    <td id="table-na-inv">0</td>
+                                    <td id="table-na-dem">0</td>
+                                    <td id="table-na-serv">0%</td>
+                                    <td><span class="status-badge optimal">Optimal</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Europe</td>
+                                    <td id="table-eu-inv">0</td>
+                                    <td id="table-eu-dem">0</td>
+                                    <td id="table-eu-serv">0%</td>
+                                    <td><span class="status-badge optimal">Optimal</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Asia</td>
+                                    <td id="table-as-inv">0</td>
+                                    <td id="table-as-dem">0</td>
+                                    <td id="table-as-serv">0%</td>
+                                    <td><span class="status-badge warning">Warning</span></td>
+                                </tr>
+                                <tr>
+                                    <td>S. America</td>
+                                    <td id="table-sa-inv">0</td>
+                                    <td id="table-sa-dem">0</td>
+                                    <td id="table-sa-serv">0%</td>
+                                    <td><span class="status-badge optimal">Optimal</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Africa</td>
+                                    <td id="table-af-inv">0</td>
+                                    <td id="table-af-dem">0</td>
+                                    <td id="table-af-serv">0%</td>
+                                    <td><span class="status-badge critical">Critical</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

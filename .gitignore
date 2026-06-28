@@ -1,0 +1,79 @@
+# =============================================================================
+# NEXUS AI - Supply Chain Optimization Agent
+# .gitignore
+# =============================================================================
+
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+
+# ── Virtual Environments ──────────────────────────────────────────────────────
+.venv/
+venv/
+ENV/
+env/
+.env
+.env.local
+.env.*.local
+
+# ── IDE & Editor Config ───────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.continue/
+*.code-workspace
+
+# ── OS Artifacts ─────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# ── Jupyter Notebooks ────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── Testing & Coverage ───────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+
+# ── Machine-Specific / Temp Files ────────────────────────────────────────────
+pip_list.txt
+test_ui_response.html
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+~$*
+
+# ── Large / Duplicate Data Files ─────────────────────────────────────────────
+# Keep data/sample_data.csv — remove root-level duplicate
+supply_chain_dataset.csv
+
+# ── Miscellaneous ─────────────────────────────────────────────────────────────
+New folder/
+*.pkl
+*.joblib
+*.h5
+*.hdf5
