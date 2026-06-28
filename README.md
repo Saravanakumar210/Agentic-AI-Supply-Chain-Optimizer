@@ -26,7 +26,7 @@ Traditional supply chain systems rely on static rules and manual intervention �
 - **Simulates** real supply chain dynamics with inventory, lead times, stockouts, and profit
 - **Visualizes** all decisions in a real-time interactive web dashboard
 
-> 🎓 Final Year Project — M.Sc. Data Science | 2026
+> > 🎓 M.Sc. Data Science | 2026 Passout | CGPA: 8.2 | The American College, Madurai | Madurai Kamaraj University
 
 ---
 
@@ -295,12 +295,12 @@ Then open your browser at: **`http://localhost:3000`**
 
 ## 👨‍💻 Author
 
-**[Your Name]**
-M.Sc. Data Science | 2026 Graduate | CGPA: 8.2
+**T. Saravana Kumar**
+M.Sc. Data Science | 2026 Passout | CGPA: 8.2 | The American College, Madurai | Madurai Kamaraj University
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat&logo=linkedin)](https://linkedin.com/in/YOUR_PROFILE)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=flat&logo=github)](https://github.com/YOUR_USERNAME)
-[![Email](https://img.shields.io/badge/Email-Contact-red?style=flat&logo=gmail)](mailto:YOUR_EMAIL)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/saravana-kumar-88a610396)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=flat&logo=github)](https://github.com/Saravanakumar210)
+[![Email](https://img.shields.io/badge/Email-Contact-red?style=flat&logo=gmail)](mailto:saravanakumar2102003@gmail.com)
 
 ---
 
