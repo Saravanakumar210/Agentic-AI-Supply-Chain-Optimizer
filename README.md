@@ -19,7 +19,13 @@
 
 ## Screenshots
 
-![Dashboard Overview](screenshots/dashboard_overview.png)
+![Dashboard](Screenshorts/Initial%20Dashboard.png)
+
+![Charts Visualization](Screenshorts/Charts%20Visualization.png)
+
+![AI Decision](Screenshorts/AI%20Decision.png)
+
+![Profit, Service and Inventory](Screenshorts/Profit,Service%20and%20Inventory.png)
 
 ## 📌 Project Overview
 
