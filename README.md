@@ -17,6 +17,10 @@
 
 ---
 
+## Screenshots
+
+![Dashboard Overview](screenshots/dashboard_overview.png)
+
 ## 📌 Project Overview
 
 Traditional supply chain systems rely on static rules and manual intervention — failing to adapt to real-world demand fluctuations. This project builds an **autonomous AI agent** that:
